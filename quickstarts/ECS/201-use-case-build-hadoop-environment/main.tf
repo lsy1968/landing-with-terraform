@@ -18,6 +18,10 @@ variable "region" {
   default = "cn-beijing"
 }
 
+provider "alicloud" {
+  region = var.region
+}
+
 // 可用区
 variable "zone_id" {
   default = "cn-beijing-c"
@@ -48,7 +52,7 @@ resource "alicloud_vswitch" "vswitch" {
   count        = local.create_instance ? 1 : 0
   vpc_id       = alicloud_vpc.vpc[0].id
   cidr_block   = "192.168.0.0/16"
-  zone_id      = data.alicloud_zones.default.zones.0.id
+  zone_id      = var.zone_id
   vswitch_name = var.name
 }
 
